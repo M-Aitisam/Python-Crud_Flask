@@ -9,17 +9,80 @@
 <link rel="icon " href="../static/teacher.png" >
 <body>
 <div class="container">
+   <!-- Header Start -->
+   <div class="well text-center">
+      <h1>Python Flask CRUD Web Application Development</h1>
+   </div>
+   <!-- Header End -->
+<div class="container">
+   <div class="row">
+      <div class="col md-12">
+         <h2>Student List <button type="button" class= "btn  btn-success pull-right" data-toggle ="modal" data-target="#mymodal" >
+            Add Student Data
+         </button></h2>
 
-  <div class="well text-center">
-   <h1>Python Flask CRUD Web Application Development</h1>
-  </div>
+         <table class="table table-stripped">
+            <tr>
+               <th>Serial</th>
+               <th>Name</th>
+               <th>Email</th>
+               <th>Phone</th>
+               <th>Action</th>
+            </tr>
+            <tr>
+               <td>01</td>
+               <td>Aitisam</td>
+               <td>aitisamahmed24@gmail.com</td>
+               <td>03471536817</td>
+               <td>
+                  <a href="" class="btn btn btn-warning bt-xm" data-toggle="modal" data-target="#modaledit">Edit</a>
+                  <a href="" class="btn btn-danger btn-xm" onclick="return confirm('Are you Sure You want to  Delete ?')">Delete</a>
+               </td>
+            </tr>
+         </table>
+      </div>
+   </div>
+   <div id="mymodal" class=" modal fade" role="dialog">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Please Insert Data</h4>
+            </div>
+            <div class="modal-body">
+               <form action="" method="POST">
+                  <div class="form-group">
+                     <label>Name:</label>
+                     <input type="text" class="form-control" name="name" required="1">
+                  </div> 
+                  <div class="form-group">
+                     <label>Email:</label>
+                     <input type="text" class="form-control" name="email" required="1">
+                  </div> 
+                  <div class="form-group">
+                     <label>Phone:</label>
+                     <input type="text" class="form-control" name="phone" required="1">
+                  </div> 
+                  <div class="form-group">
+                     <button class="btn btn-primary" type="submit">Insert Data </button> 
+                  </div>
+               </form>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
 
-  
+  <!-- Footer  Start-->
   <div class="well">
-   <h3> Github: https://github.com/M-Aitisam 
+     <h3> Github: https://github.com/M-Aitisam 
       <span class="pull-right"> Like  https://github.com/M-Aitisam</span>
    </h3>
    </div>
+   <!-- Footer  End-->
 </div>
 
 
