@@ -1,95 +1,140 @@
-
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-   <title>CRUD Application</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask CRUD Application</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
-<link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
-<!-- <link rel="shortcut icon" href="{{url_for('static', filename ='teacher.png')}}"> -->
-<link rel="icon " href="../static/teacher.png" >
 <body>
 <div class="container">
-   <!-- Header Start -->
-   <div class="well text-center">
-      <h1>Python Flask CRUD Web Application Development</h1>
-   </div>
-   <!-- Header End -->
-<div class="container">
-   <div class="row">
-      <div class="col md-12">
-         <h2>Student List <button type="button" class= "btn  btn-success pull-right" data-toggle ="modal" data-target="#mymodal" >
-            Add Student Data
-         </button></h2>
+    <h1 class="text-center my-5">Nurse and Patient Management</h1>
 
-         <table class="table table-stripped">
-            <tr>
-               <th>Serial</th>
-               <th>Name</th>
-               <th>Email</th>
-               <th>Phone</th>
-               <th>Action</th>
-            </tr>
-            <tr>
-               <td>01</td>
-               <td>Aitisam</td>
-               <td>aitisamahmed24@gmail.com</td>
-               <td>03471536817</td>
-               <td>
-                  <a href="" class="btn btn btn-warning bt-xm" data-toggle="modal" data-target="#modaledit">Edit</a>
-                  <a href="" class="btn btn-danger btn-xm" onclick="return confirm('Are you Sure You want to  Delete ?')">Delete</a>
-               </td>
-            </tr>
-         </table>
-      </div>
-   </div>
-   <div id="mymodal" class=" modal fade" role="dialog">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <h4 class="modal-title">Please Insert Data</h4>
-            </div>
-            <div class="modal-body">
-               <form action="" method="POST">
-                  <div class="form-group">
-                     <label>Name:</label>
-                     <input type="text" class="form-control" name="name" required="1">
-                  </div> 
-                  <div class="form-group">
-                     <label>Email:</label>
-                     <input type="text" class="form-control" name="email" required="1">
-                  </div> 
-                  <div class="form-group">
-                     <label>Phone:</label>
-                     <input type="text" class="form-control" name="phone" required="1">
-                  </div> 
-                  <div class="form-group">
-                     <button class="btn btn-primary" type="submit">Insert Data </button> 
-                  </div>
-               </form>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-         </div>
-      </div>
-   </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Add Nurse</h2>
+            <form id="nurseForm">
+                <div class="form-group">
+                    <label for="nurseId">ID</label>
+                    <input type="number" id="nurseId" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="nurseName">Name</label>
+                    <input type="text" id="nurseName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="nurseAge">Age</label>
+                    <input type="number" id="nurseAge" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="nurseGender">Gender</label>
+                    <input type="text" id="nurseGender" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Nurse</button>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <h2>Add Patient</h2>
+            <form id="patientForm">
+                <div class="form-group">
+                    <label for="patientId">ID</label>
+                    <input type="number" id="patientId" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="patientName">Name</label>
+                    <input type="text" id="patientName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="patientAge">Age</label>
+                    <input type="number" id="patientAge" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="patientGender">Gender</label>
+                    <input type="text" id="patientGender" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="nurseId">Nurse ID</label>
+                    <input type="number" id="nurseIdForPatient" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Patient</button>
+            </form>
+        </div>
+    </div>
+
+    <h2 class="my-5">Nurse List</h2>
+    <ul id="nurseList" class="list-group"></ul>
+
+    <h2 class="my-5">Patient List</h2>
+    <ul id="patientList" class="list-group"></ul>
 </div>
 
-  <!-- Footer  Start-->
-  <div class="well">
-     <h3> Github: https://github.com/M-Aitisam 
-      <span class="pull-right"> Like  https://github.com/M-Aitisam</span>
-   </h3>
-   </div>
-   <!-- Footer  End-->
-</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Fetch all nurses
+        fetch('/nurses')
+            .then(response => response.json())
+            .then(nurses => {
+                nurses.forEach(nurse => {
+                    $('#nurseList').append(`<li class="list-group-item">${nurse.name} - ${nurse.gender} (${nurse.age} years old)</li>`);
+                });
+            });
 
+        // Fetch all patients
+        fetch('/patients')
+            .then(response => response.json())
+            .then(patients => {
+                patients.forEach(patient => {
+                    $('#patientList').append(`<li class="list-group-item">${patient.name} - ${patient.gender} (${patient.age} years old), Nurse ID: ${patient.nurse_id}</li>`);
+                });
+            });
 
+        // Add nurse form submission
+        $('#nurseForm').submit(function (event) {
+            event.preventDefault();
+            const nurse = {
+                id: $('#nurseId').val(),
+                name: $('#nurseName').val(),
+                age: $('#nurseAge').val(),
+                gender: $('#nurseGender').val()
+            };
 
-<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+            $.ajax({
+                url: '/accept',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(nurse),
+                success: function () {
+                    alert('Nurse added successfully');
+                    location.reload();
+                }
+            });
+        });
 
-<script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
+        // Add patient form submission
+        $('#patientForm').submit(function (event) {
+            event.preventDefault();
+            const patient = {
+                id: $('#patientId').val(),
+                name: $('#patientName').val(),
+                age: $('#patientAge').val(),
+                gender: $('#patientGender').val(),
+                nurse_id: $('#nurseIdForPatient').val()
+            };
 
+            $.ajax({
+                url: '/patient',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(patient),
+                success: function () {
+                    alert('Patient added successfully');
+                    location.reload();
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
