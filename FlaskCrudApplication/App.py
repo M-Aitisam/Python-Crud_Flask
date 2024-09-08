@@ -37,10 +37,10 @@ def index():
 @app.route('/accept', methods=['POST'])
 def submit_nurse():
     data = request.json
-    id = data['id']
-    name = data['name']
-    age = data['age']
-    gender = data['gender']
+    id = data.get('id')
+    name = data.get('name')
+    age = data.get('age')
+    gender = data.get('gender')
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -49,16 +49,16 @@ def submit_nurse():
     cursor.close()
     conn.close()
 
-    return jsonify({"message": "Nurse data inserted successfully"}), 201
+    return jsonify({"message": "Nurse added successfully"}), 201
 
 @app.route('/patient', methods=['POST'])
 def submit_patient():
     data = request.json
-    id = data['id']
-    name = data['name']
-    age = data['age']
-    gender = data['gender']
-    nurse_id = data['nurse_id']
+    id = data.get('id')
+    name = data.get('name')
+    age = data.get('age')
+    gender = data.get('gender')
+    nurse_id = data.get('nurse_id')
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -67,7 +67,7 @@ def submit_patient():
     cursor.close()
     conn.close()
 
-    return jsonify({"message": "Patient data inserted successfully"}), 201
+    return jsonify({"message": "Patient added successfully"}), 201
 
 @app.route('/nurses', methods=['GET'])
 def get_nurses():
@@ -96,9 +96,9 @@ def get_patients():
 @app.route('/nurse/<int:id>', methods=['PUT'])
 def update_nurse(id):
     data = request.json
-    name = data['name']
-    age = data['age']
-    gender = data['gender']
+    name = data.get('name')
+    age = data.get('age')
+    gender = data.get('gender')
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -112,10 +112,10 @@ def update_nurse(id):
 @app.route('/patient/<int:id>', methods=['PUT'])
 def update_patient(id):
     data = request.json
-    name = data['name']
-    age = data['age']
-    gender = data['gender']
-    nurse_id = data['nurse_id']
+    name = data.get('name')
+    age = data.get('age')
+    gender = data.get('gender')
+    nurse_id = data.get('nurse_id')
 
     conn = get_db_connection()
     cursor = conn.cursor()
