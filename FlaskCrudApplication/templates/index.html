@@ -97,19 +97,42 @@
         </div>
     </div>
 
-    <!-- Nurse List -->
+    <!-- Nurse List Table -->
     <div class="card">
         <div class="card-header bg-secondary text-white">Nurse List</div>
         <div class="card-body">
-            <ul class="list-group" id="nurseList"></ul>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="nurseList"></tbody>
+            </table>
         </div>
     </div>
 
-    <!-- Patient List -->
+    <!-- Patient List Table -->
     <div class="card">
         <div class="card-header bg-secondary text-white">Patient List</div>
         <div class="card-body">
-            <ul class="list-group" id="patientList"></ul>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Nurse ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="patientList"></tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -127,11 +150,16 @@
             .then(nurses => {
                 nurses.forEach(nurse => {
                     $('#nurseList').append(`
-                        <li class="list-group-item">
-                            ${nurse.name} - ${nurse.gender} (${nurse.age} years old)
-                            <button class="btn btn-sm btn-danger float-right ml-2 delete-nurse" data-id="${nurse.id}">Delete</button>
-                            <button class="btn btn-sm btn-warning float-right edit-nurse" data-id="${nurse.id}" data-name="${nurse.name}" data-age="${nurse.age}" data-gender="${nurse.gender}">Edit</button>
-                        </li>`);
+                        <tr>
+                            <td>${nurse.id}</td>
+                            <td>${nurse.name}</td>
+                            <td>${nurse.age}</td>
+                            <td>${nurse.gender}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger delete-nurse" data-id="${nurse.id}">Delete</button>
+                                <button class="btn btn-sm btn-warning edit-nurse" data-id="${nurse.id}" data-name="${nurse.name}" data-age="${nurse.age}" data-gender="${nurse.gender}">Edit</button>
+                            </td>
+                        </tr>`);
                 });
             });
 
@@ -141,11 +169,17 @@
             .then(patients => {
                 patients.forEach(patient => {
                     $('#patientList').append(`
-                        <li class="list-group-item">
-                            ${patient.name} - ${patient.gender} (${patient.age} years old), Nurse ID: ${patient.nurse_id}
-                            <button class="btn btn-sm btn-danger float-right ml-2 delete-patient" data-id="${patient.id}">Delete</button>
-                            <button class="btn btn-sm btn-warning float-right edit-patient" data-id="${patient.id}" data-name="${patient.name}" data-age="${patient.age}" data-gender="${patient.gender}" data-nurse-id="${patient.nurse_id}">Edit</button>
-                        </li>`);
+                        <tr>
+                            <td>${patient.id}</td>
+                            <td>${patient.name}</td>
+                            <td>${patient.age}</td>
+                            <td>${patient.gender}</td>
+                            <td>${patient.nurse_id}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger delete-patient" data-id="${patient.id}">Delete</button>
+                                <button class="btn btn-sm btn-warning edit-patient" data-id="${patient.id}" data-name="${patient.name}" data-age="${patient.age}" data-gender="${patient.gender}" data-nurse-id="${patient.nurse_id}">Edit</button>
+                            </td>
+                        </tr>`);
                 });
             });
 
@@ -233,13 +267,13 @@
             const name = $(this).data('name');
             const age = $(this).data('age');
             const gender = $(this).data('gender');
-            const nurse_id = $(this).data('nurse-id');
+            const nurseId = $(this).data('nurse-id');
 
             $('#patientId').val(id);
             $('#patientName').val(name);
             $('#patientAge').val(age);
             $('#patientGender').val(gender);
-            $('#nurseIdForPatient').val(nurse_id);
+            $('#nurseIdForPatient').val(nurseId);
 
             $('#patientForm').off('submit').on('submit', function (event) {
                 event.preventDefault();
@@ -266,31 +300,29 @@
         // Delete nurse
         $(document).on('click', '.delete-nurse', function () {
             const id = $(this).data('id');
-            if (confirm('Are you sure you want to delete this nurse?')) {
-                $.ajax({
-                    url: `/nurse/${id}`,
-                    method: 'DELETE',
-                    success: function () {
-                        alert('Nurse deleted successfully');
-                        location.reload();
-                    }
-                });
-            }
+
+            $.ajax({
+                url: `/nurse/${id}`,
+                method: 'DELETE',
+                success: function () {
+                    alert('Nurse deleted successfully');
+                    location.reload();
+                }
+            });
         });
 
         // Delete patient
         $(document).on('click', '.delete-patient', function () {
             const id = $(this).data('id');
-            if (confirm('Are you sure you want to delete this patient?')) {
-                $.ajax({
-                    url: `/patient/${id}`,
-                    method: 'DELETE',
-                    success: function () {
-                        alert('Patient deleted successfully');
-                        location.reload();
-                    }
-                });
-            }
+
+            $.ajax({
+                url: `/patient/${id}`,
+                method: 'DELETE',
+                success: function () {
+                    alert('Patient deleted successfully');
+                    location.reload();
+                }
+            });
         });
     });
 </script>
