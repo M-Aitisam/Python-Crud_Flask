@@ -36,6 +36,11 @@ def index():
 @app.route('/accept', methods=['POST'])
 def submit_nurse():
     data = request.json
+
+    # Validate data
+    if not all(key in data for key in ('name', 'age', 'gender')):
+        return jsonify({"error": "Missing required fields"}), 400
+
     id = data.get('id')
     name = data.get('name')
     age = data.get('age')
@@ -60,6 +65,11 @@ def submit_nurse():
 @app.route('/patient', methods=['POST'])
 def submit_patient():
     data = request.json
+
+    # Validate data
+    if not all(key in data for key in ('name', 'age', 'gender', 'nurse_id')):
+        return jsonify({"error": "Missing required fields"}), 400
+
     id = data.get('id')
     name = data.get('name')
     age = data.get('age')
@@ -117,6 +127,11 @@ def get_patients():
 @app.route('/nurse/<int:id>', methods=['PUT'])
 def update_nurse(id):
     data = request.json
+
+    # Validate data
+    if not all(key in data for key in ('name', 'age', 'gender')):
+        return jsonify({"error": "Missing required fields"}), 400
+
     name = data.get('name')
     age = data.get('age')
     gender = data.get('gender')
@@ -137,6 +152,11 @@ def update_nurse(id):
 @app.route('/patient/<int:id>', methods=['PUT'])
 def update_patient(id):
     data = request.json
+
+    # Validate data
+    if not all(key in data for key in ('name', 'age', 'gender', 'nurse_id')):
+        return jsonify({"error": "Missing required fields"}), 400
+
     name = data.get('name')
     age = data.get('age')
     gender = data.get('gender')
