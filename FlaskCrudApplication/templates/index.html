@@ -3,371 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient and Nurse Management</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <title>Nurse-Patient Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .card {
+            margin: 20px 0;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-4">
-    <h2>Patient and Nurse Management</h2>
-    
-    <!-- Patient Management -->
-    <h3>Patients</h3>
-    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addPatientModal">Add Patient</button>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Nurse ID</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="patientTableBody">
-            <!-- Patient rows will be inserted here -->
-        </tbody>
-    </table>
-    
-    <!-- Nurse Management -->
-    <h3>Nurses</h3>
-    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addNurseModal">Add Nurse</button>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="nurseTableBody">
-            <!-- Nurse rows will be inserted here -->
-        </tbody>
-    </table>
-</div>
+<div class="container mt-5">
+    <h1 class="text-center">Nurse-Patient Management System</h1>
 
-<!-- Add Patient Modal -->
-<div class="modal fade" id="addPatientModal" tabindex="-1" role="dialog" aria-labelledby="addPatientModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addPatientModalLabel">Add Patient</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="addPatientForm">
-                    <div class="form-group">
-                        <label for="patientName">Name</label>
-                        <input type="text" class="form-control" id="patientName" required>
+    <!-- Add Nurse Form -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">Add Nurse</div>
+        <div class="card-body">
+            <form id="nurseForm">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="nurseId">ID</label>
+                        <input type="number" id="nurseId" class="form-control" required>
                     </div>
-                    <div class="form-group">
-                        <label for="patientAge">Age</label>
-                        <input type="number" class="form-control" id="patientAge" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="patientGender">Gender</label>
-                        <select class="form-control" id="patientGender" required>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="patientNurseId">Nurse ID</label>
-                        <input type="text" class="form-control" id="patientNurseId">
-                    </div>
-                    <input type="hidden" id="patientId">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Edit Patient Modal -->
-<div class="modal fade" id="editPatientModal" tabindex="-1" role="dialog" aria-labelledby="editPatientModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editPatientModalLabel">Edit Patient</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="editPatientForm">
-                    <div class="form-group">
-                        <label for="editPatientName">Name</label>
-                        <input type="text" class="form-control" id="editPatientName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editPatientAge">Age</label>
-                        <input type="number" class="form-control" id="editPatientAge" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editPatientGender">Gender</label>
-                        <select class="form-control" id="editPatientGender" required>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="editPatientNurseId">Nurse ID</label>
-                        <input type="text" class="form-control" id="editPatientNurseId">
-                    </div>
-                    <input type="hidden" id="editPatientId">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Add Nurse Modal -->
-<div class="modal fade" id="addNurseModal" tabindex="-1" role="dialog" aria-labelledby="addNurseModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addNurseModalLabel">Add Nurse</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="addNurseForm">
-                    <div class="form-group">
+                    <div class="form-group col-md-3">
                         <label for="nurseName">Name</label>
-                        <input type="text" class="form-control" id="nurseName" required>
+                        <input type="text" id="nurseName" class="form-control" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-3">
                         <label for="nurseAge">Age</label>
-                        <input type="number" class="form-control" id="nurseAge" required>
+                        <input type="number" id="nurseAge" class="form-control" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-3">
                         <label for="nurseGender">Gender</label>
-                        <select class="form-control" id="nurseGender" required>
+                        <select id="nurseGender" class="form-control" required>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
                     </div>
-                    <input type="hidden" id="nurseId">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
-            </div>
+                </div>
+                <button type="submit" class="btn btn-custom">Add Nurse</button>
+            </form>
         </div>
     </div>
-</div>
 
-<!-- Edit Nurse Modal -->
-<div class="modal fade" id="editNurseModal" tabindex="-1" role="dialog" aria-labelledby="editNurseModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editNurseModalLabel">Edit Nurse</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="editNurseForm">
-                    <div class="form-group">
-                        <label for="editNurseName">Name</label>
-                        <input type="text" class="form-control" id="editNurseName" required>
+    <!-- Add Patient Form -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">Add Patient</div>
+        <div class="card-body">
+            <form id="patientForm">
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="patientId">ID</label>
+                        <input type="number" id="patientId" class="form-control" required>
                     </div>
-                    <div class="form-group">
-                        <label for="editNurseAge">Age</label>
-                        <input type="number" class="form-control" id="editNurseAge" required>
+                    <div class="form-group col-md-3">
+                        <label for="patientName">Name</label>
+                        <input type="text" id="patientName" class="form-control" required>
                     </div>
-                    <div class="form-group">
-                        <label for="editNurseGender">Gender</label>
-                        <select class="form-control" id="editNurseGender" required>
+                    <div class="form-group col-md-2">
+                        <label for="patientAge">Age</label>
+                        <input type="number" id="patientAge" class="form-control" required>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="patientGender">Gender</label>
+                        <select id="patientGender" class="form-control" required>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
                     </div>
-                    <input type="hidden" id="editNurseId">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </form>
-            </div>
+                    <div class="form-group col-md-3">
+                        <label for="nurseIdForPatient">Nurse ID</label>
+                        <input type="number" id="nurseIdForPatient" class="form-control" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-custom">Add Patient</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Nurse List -->
+    <div class="card">
+        <div class="card-header bg-secondary text-white">Nurse List</div>
+        <div class="card-body">
+            <ul class="list-group" id="nurseList"></ul>
+        </div>
+    </div>
+
+    <!-- Patient List -->
+    <div class="card">
+        <div class="card-header bg-secondary text-white">Patient List</div>
+        <div class="card-body">
+            <ul class="list-group" id="patientList"></ul>
         </div>
     </div>
 </div>
 
+<!-- JQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- Custom JS -->
 <script>
-$(document).ready(function () {
-    // Load patients and nurses on page load
-    loadPatients();
-    loadNurses();
+    $(document).ready(function () {
+        // Fetch all nurses
+        fetch('/nurses')
+            .then(response => response.json())
+            .then(nurses => {
+                nurses.forEach(nurse => {
+                    $('#nurseList').append(`
+                        <li class="list-group-item">
+                            ${nurse.name} - ${nurse.gender} (${nurse.age} years old)
+                            <button class="btn btn-sm btn-danger float-right ml-2 delete-nurse" data-id="${nurse.id}">Delete</button>
+                            <button class="btn btn-sm btn-warning float-right edit-nurse" data-id="${nurse.id}" data-name="${nurse.name}" data-age="${nurse.age}" data-gender="${nurse.gender}">Edit</button>
+                        </li>`);
+                });
+            });
 
-    // Add patient form submission
-    $('#addPatientForm').on('submit', function (e) {
-        e.preventDefault();
-        const patient = {
-            id: $('#patientId').val(),
-            name: $('#patientName').val(),
-            age: $('#patientAge').val(),
-            gender: $('#patientGender').val(),
-            nurse_id: $('#patientNurseId').val()
-        };
-        $.post('/patient', patient, function (response) {
-            $('#addPatientModal').modal('hide');
-            loadPatients();
-        });
-    });
+        // Fetch all patients
+        fetch('/patients')
+            .then(response => response.json())
+            .then(patients => {
+                patients.forEach(patient => {
+                    $('#patientList').append(`
+                        <li class="list-group-item">
+                            ${patient.name} - ${patient.gender} (${patient.age} years old), Nurse ID: ${patient.nurse_id}
+                            <button class="btn btn-sm btn-danger float-right ml-2 delete-patient" data-id="${patient.id}">Delete</button>
+                            <button class="btn btn-sm btn-warning float-right edit-patient" data-id="${patient.id}" data-name="${patient.name}" data-age="${patient.age}" data-gender="${patient.gender}" data-nurse-id="${patient.nurse_id}">Edit</button>
+                        </li>`);
+                });
+            });
 
-    // Edit patient form submission
-    $('#editPatientForm').on('submit', function (e) {
-        e.preventDefault();
-        const patient = {
-            id: $('#editPatientId').val(),
-            name: $('#editPatientName').val(),
-            age: $('#editPatientAge').val(),
-            gender: $('#editPatientGender').val(),
-            nurse_id: $('#editPatientNurseId').val()
-        };
-        $.ajax({
-            url: `/patient/${patient.id}`,
-            method: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify(patient),
-            success: function () {
-                $('#editPatientModal').modal('hide');
-                loadPatients();
-            }
-        });
-    });
+        // Add nurse form submission
+        $('#nurseForm').on('submit', function (event) {
+            event.preventDefault();
+            const nurse = {
+                id: $('#nurseId').val(),
+                name: $('#nurseName').val(),
+                age: $('#nurseAge').val(),
+                gender: $('#nurseGender').val()
+            };
 
-    // Add nurse form submission
-    $('#addNurseForm').on('submit', function (e) {
-        e.preventDefault();
-        const nurse = {
-            id: $('#nurseId').val(),
-            name: $('#nurseName').val(),
-            age: $('#nurseAge').val(),
-            gender: $('#nurseGender').val()
-        };
-        $.post('/accept', nurse, function (response) {
-            $('#addNurseModal').modal('hide');
-            loadNurses();
-        });
-    });
-
-    // Edit nurse form submission
-    $('#editNurseForm').on('submit', function (e) {
-        e.preventDefault();
-        const nurse = {
-            id: $('#editNurseId').val(),
-            name: $('#editNurseName').val(),
-            age: $('#editNurseAge').val(),
-            gender: $('#editNurseGender').val()
-        };
-        $.ajax({
-            url: `/nurse/${nurse.id}`,
-            method: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify(nurse),
-            success: function () {
-                $('#editNurseModal').modal('hide');
-                loadNurses();
-            }
-        });
-    });
-
-    // Load patients
-    function loadPatients() {
-        $.get('/patients', function (patients) {
-            const tbody = $('#patientTableBody').empty();
-            patients.forEach(patient => {
-                tbody.append(`
-                    <tr>
-                        <td>${patient.id}</td>
-                        <td>${patient.name}</td>
-                        <td>${patient.age}</td>
-                        <td>${patient.gender}</td>
-                        <td>${patient.nurse_id}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" onclick="editPatient(${patient.id})">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="deletePatient(${patient.id})">Delete</button>
-                        </td>
-                    </tr>
-                `);
+            $.ajax({
+                url: '/nurse',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(nurse),
+                success: function () {
+                    alert('Nurse added successfully');
+                    location.reload(); // Reload the page to refresh the list
+                }
             });
         });
-    }
 
-    // Load nurses
-    function loadNurses() {
-        $.get('/nurses', function (nurses) {
-            const tbody = $('#nurseTableBody').empty();
-            nurses.forEach(nurse => {
-                tbody.append(`
-                    <tr>
-                        <td>${nurse.id}</td>
-                        <td>${nurse.name}</td>
-                        <td>${nurse.age}</td>
-                        <td>${nurse.gender}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" onclick="editNurse(${nurse.id})">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteNurse(${nurse.id})">Delete</button>
-                        </td>
-                    </tr>
-                `);
+        // Add patient form submission
+        $('#patientForm').on('submit', function (event) {
+            event.preventDefault();
+            const patient = {
+                id: $('#patientId').val(),
+                name: $('#patientName').val(),
+                age: $('#patientAge').val(),
+                gender: $('#patientGender').val(),
+                nurse_id: $('#nurseIdForPatient').val()
+            };
+
+            $.ajax({
+                url: '/patient',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(patient),
+                success: function () {
+                    alert('Patient added successfully');
+                    location.reload();
+                }
             });
         });
-    }
 
-    // Edit patient
-    window.editPatient = function (id) {
-        $.get(`/patient/${id}`, function (patient) {
-            $('#editPatientId').val(patient.id);
-            $('#editPatientName').val(patient.name);
-            $('#editPatientAge').val(patient.age);
-            $('#editPatientGender').val(patient.gender);
-            $('#editPatientNurseId').val(patient.nurse_id);
-            $('#editPatientModal').modal('show');
+        // Edit nurse
+        $(document).on('click', '.edit-nurse', function () {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            const age = $(this).data('age');
+            const gender = $(this).data('gender');
+
+            $('#nurseId').val(id);
+            $('#nurseName').val(name);
+            $('#nurseAge').val(age);
+            $('#nurseGender').val(gender);
+
+            $('#nurseForm').off('submit').on('submit', function (event) {
+                event.preventDefault();
+                const updatedNurse = {
+                    name: $('#nurseName').val(),
+                    age: $('#nurseAge').val(),
+                    gender: $('#nurseGender').val()
+                };
+
+                $.ajax({
+                    url: `/nurse/${id}`,
+                    method: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(updatedNurse),
+                    success: function () {
+                        alert('Nurse updated successfully');
+                        location.reload();
+                    }
+                });
+            });
         });
-    };
 
-    // Delete patient
-    window.deletePatient = function (id) {
-        $.ajax({
-            url: `/patient/${id}`,
-            method: 'DELETE',
-            success: function () {
-                loadPatients();
+        // Edit patient
+        $(document).on('click', '.edit-patient', function () {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            const age = $(this).data('age');
+            const gender = $(this).data('gender');
+            const nurse_id = $(this).data('nurse-id');
+
+            $('#patientId').val(id);
+            $('#patientName').val(name);
+            $('#patientAge').val(age);
+            $('#patientGender').val(gender);
+            $('#nurseIdForPatient').val(nurse_id);
+
+            $('#patientForm').off('submit').on('submit', function (event) {
+                event.preventDefault();
+                const updatedPatient = {
+                    name: $('#patientName').val(),
+                    age: $('#patientAge').val(),
+                    gender: $('#patientGender').val(),
+                    nurse_id: $('#nurseIdForPatient').val()
+                };
+
+                $.ajax({
+                    url: `/patient/${id}`,
+                    method: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(updatedPatient),
+                    success: function () {
+                        alert('Patient updated successfully');
+                        location.reload();
+                    }
+                });
+            });
+        });
+
+        // Delete nurse
+        $(document).on('click', '.delete-nurse', function () {
+            const id = $(this).data('id');
+            if (confirm('Are you sure you want to delete this nurse?')) {
+                $.ajax({
+                    url: `/nurse/${id}`,
+                    method: 'DELETE',
+                    success: function () {
+                        alert('Nurse deleted successfully');
+                        location.reload();
+                    }
+                });
             }
         });
-    };
 
-    // Edit nurse
-    window.editNurse = function (id) {
-        $.get(`/nurse/${id}`, function (nurse) {
-            $('#editNurseId').val(nurse.id);
-            $('#editNurseName').val(nurse.name);
-            $('#editNurseAge').val(nurse.age);
-            $('#editNurseGender').val(nurse.gender);
-            $('#editNurseModal').modal('show');
-        });
-    };
-
-    // Delete nurse
-    window.deleteNurse = function (id) {
-        $.ajax({
-            url: `/nurse/${id}`,
-            method: 'DELETE',
-            success: function () {
-                loadNurses();
+        // Delete patient
+        $(document).on('click', '.delete-patient', function () {
+            const id = $(this).data('id');
+            if (confirm('Are you sure you want to delete this patient?')) {
+                $.ajax({
+                    url: `/patient/${id}`,
+                    method: 'DELETE',
+                    success: function () {
+                        alert('Patient deleted successfully');
+                        location.reload();
+                    }
+                });
             }
         });
-    };
-});
+    });
 </script>
 </body>
 </html>
